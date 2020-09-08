@@ -1,24 +1,56 @@
 import { getStore } from "./store";
 import { getType, isEqualForArray } from "./util";
 
+const listener = {};
+
+function trySubscribe() {
+  if (listener[this.__wxExparserNodeId__]) {
+    return;
+  }
+
+  this.unsubscript = getStore().subscribe(this._checkState.bind(this));
+  listener[this.__wxExparserNodeId__] = true;
+  this._checkState();
+}
+
+function tryUnsubscript() {
+  if (this.unsubscript) {
+    if (!listener[this.__wxExparserNodeId__]) {
+      return;
+    }
+
+    this.unsubscript();
+    listener[this.__wxExparserNodeId__] = false;
+  }
+}
+
 const connect = Behavior({
   attached() {
-    this.unsubscript = getStore().subscribe(this._checkState.bind(this));
-    this._checkState();
+    trySubscribe.call(this);
   },
 
   detached() {
-    this.unsubscript && this.unsubscript();
+    tryUnsubscript.call(this);
+  },
+
+  pageLifetimes: {
+    show() {
+      trySubscribe.call(this);
+    },
+
+    hide() {
+      tryUnsubscript.call(this);
+    },
   },
 
   definitionFilter(defFields) {
-    var selector = defFields.selector;
+    const selector = defFields.selector;
     if (!selector) {
       throw new Error("no selector function");
     }
 
-    defFields.data = defFields.dat || {};
-    defFields.data.preDevs = null;
+    defFields.data = defFields.data || {};
+    defFields.data._preDevs = null;
 
     if (!defFields.methods) {
       defFields.methods = {};
@@ -37,22 +69,22 @@ const connect = Behavior({
         return;
       }
 
-      const { preDevs } = this.data;
-      if (!preDevs) {
-        this.setData({ ...result, preDevs: devs });
+      const { _preDevs } = this.data;
+      if (!_preDevs) {
+        this.setData({ ...result, _preDevs: devs });
         return;
       }
 
-      const needUpdate = !isEqualForArray(devs, preDevs);
+      const needUpdate = !isEqualForArray(devs, _preDevs);
       if (!needUpdate) {
         return;
       }
 
-      this.setData({ ...result, preDevs: devs });
+      this.setData({ ...result, _preDevs: devs });
 
       if (this._stateUpdated) {
         setTimeout(() => {
-          this._stateUpdated(renderFn(...preDevs));
+          this._stateUpdated(renderFn(..._preDevs));
         }, 0);
       }
     },

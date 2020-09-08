@@ -1,2 +1,7 @@
 <!--logs.wxml-->
-<view class="container">Logs</view>
+<view class="container">
+  <text>Logs</text>
+
+  <button bindtap="handleDispatch">dispatch</button>
+  <view>{{ name }}</view>
+</view>

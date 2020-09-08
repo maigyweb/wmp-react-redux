@@ -1,11 +1,30 @@
-const { connect, stateSelector, createSelector } = require("wmp-redux");
+const {
+  getStore,
+  connect,
+  stateSelector,
+  createSelector,
+} = require("wmp-redux");
+const { actions } = require("wrr-wmp-libs");
+const { aysncTest } = actions;
+const { dispatch } = getStore();
 
 const selector = createSelector(
   (state) => state.account.own,
-  (own) => own
+  (state) => state.tt.test,
+  (own, test) => ({ ...own, ...test })
 );
 
 Component({
   behaviors: [connect],
   selector: (data) => stateSelector(selector, data),
+
+  stateUpdated(preState) {
+    console.log(preState);
+  },
+
+  methods: {
+    handleDispatch() {
+      dispatch(aysncTest({ name: "test-changed" }));
+    },
+  },
 });
