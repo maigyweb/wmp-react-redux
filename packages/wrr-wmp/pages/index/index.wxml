@@ -1,0 +1,14 @@
+<!--index.wxml-->
+<view class="container">
+  <text>Index</text>
+  <navigator url="/pages/logs/logs" >Log</navigator>
+  <button bindtap="handlePrintData">data</button>
+
+  <button bindtap="handleDispatch">dispatch</button>
+  <view>{{ name }}</view>
+
+  <button bindtap="handleGetState">getState</button>
+
+  <button bindtap="handleGetApiTest">getApi</button>
+  <button bindtap="handlePostApiTest">postApi</button>
+</view>
