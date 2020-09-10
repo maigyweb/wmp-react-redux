@@ -4,12 +4,11 @@
   "main": "index.js",
   "scripts": {
     "redux": "APP_ENV=dev WMP_INPUT=redux node ./scripts/build.js",
-    "redux:prod": "APP_ENV=prod WMP_INPUT=redux node ./scripts/build.js",
     "start": "APP_ENV=dev WMP_INPUT=app node ./scripts/start.js",
     "buid": "APP_ENV=dev WMP_INPUT=app node ./scripts/build.js",
     "buid:prod": "APP_ENV=prod WMP_INPUT=app node ./scripts/build.js",
     "start:all": "yarn redux && yarn start",
-    "build:all": "yarn redux:prod && yarn buid:prod"
+    "build:all": "yarn redux && yarn buid:prod"
   },
   "author": "",
   "license": "ISC",

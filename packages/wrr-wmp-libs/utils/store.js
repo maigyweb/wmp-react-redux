@@ -5,13 +5,13 @@ import logger from "redux-logger";
 const sagaMiddleware = createSagaMiddleware();
 const middleware = [sagaMiddleware];
 
-if (process.env.WMP_DEBUG === "1") {
-  middleware.unshift(logger);
-}
-
 let store = {};
 
-function configureStore(rootReducer, rootSaga) {
+function configureStore(rootReducer, rootSaga, needLogger) {
+  if (needLogger) {
+    middleware.unshift(logger);
+  }
+
   store = createStore(rootReducer, applyMiddleware(...middleware));
   sagaMiddleware.run(rootSaga);
 }
