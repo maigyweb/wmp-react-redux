@@ -1,0 +1,8 @@
+<view class="wrapper">
+  <view class="top" style="height: {{introdType === 'shrink' ? '50px' : '100px'}}">
+    <text>{{ introd }}</text>
+  </view>
+
+  <view wx:if="{{introdType === 'shrink'}}" class="button" bindtap="handleUnfold">展开</view>
+  <view wx:else class="button" bindtap="handleShrink">收起</view>
+</view>
