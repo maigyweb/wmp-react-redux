@@ -49,7 +49,9 @@ const connect = Behavior({
       throw new Error("no selector function");
     }
 
-    defFields.data = defFields.data || {};
+    if (!defFields.data) {
+      defFields.data = {};
+    }
     defFields.data._preDevs = null;
 
     if (!defFields.methods) {

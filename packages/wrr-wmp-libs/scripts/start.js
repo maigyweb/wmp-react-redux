@@ -21,7 +21,8 @@ function watch() {
         console.log("Creating a development build...");
         break;
       case "BUNDLE_END":
-        console.log(chalk.green("Compiled successfully.\n"));
+        console.log(chalk.green("Compiled successfully."));
+        console.log("waitting change...\n");
         break;
       case "ERROR":
       case "FATAL":
