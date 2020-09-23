@@ -8,18 +8,18 @@ function trySubscribe() {
     return;
   }
 
-  this.unsubscript = getStore().subscribe(this._checkState.bind(this));
+  this._unsubscript = getStore().subscribe(this._dealPageState.bind(this));
   listener[this.__wxExparserNodeId__] = true;
-  this._checkState();
+  this._dealPageState();
 }
 
 function tryUnsubscript() {
-  if (this.unsubscript) {
+  if (this._unsubscript) {
     if (!listener[this.__wxExparserNodeId__]) {
       return;
     }
 
-    this.unsubscript();
+    this._unsubscript();
     listener[this.__wxExparserNodeId__] = false;
   }
 }
@@ -65,7 +65,7 @@ const connect = Behavior({
   },
 
   methods: {
-    _checkState() {
+    _dealPageState() {
       const { devs, result, renderFn } = this._selector(this.data);
       if (!result) {
         return;
@@ -94,12 +94,6 @@ const connect = Behavior({
 });
 
 function stateSelector(_createSelector, data) {
-  if (data && getType(data) !== "Object") {
-    throw new Error(
-      "the second arg of stateSelector should be object or undefined"
-    );
-  }
-
   return _createSelector(data);
 }
 
@@ -112,9 +106,8 @@ function createSelector(...args) {
     const devFnList = args.slice(0, -1);
     const renderFn = args[args.length - 1];
 
-    const devResList = devFnList.map((getDev) =>
-      getDev(getStore().getState(), data)
-    );
+    const state = getStore().getState();
+    const devResList = devFnList.map((getDev) => getDev(state, data));
 
     return { devs: devResList, result: renderFn(...devResList), renderFn };
   };

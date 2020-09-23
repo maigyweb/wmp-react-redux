@@ -11,4 +11,6 @@
 
   <button bindtap="handleGetApiTest">getApi</button>
   <button bindtap="handlePostApiTest">postApi</button>
+
+  <text>{{ numberAccount }}</text>
 </view>

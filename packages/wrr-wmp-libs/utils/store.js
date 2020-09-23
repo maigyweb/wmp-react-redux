@@ -6,6 +6,8 @@ const sagaMiddleware = createSagaMiddleware();
 const middleware = [sagaMiddleware];
 
 let store = {};
+store.getState = () => ({});
+store.subscribe = () => {};
 
 function configureStore(rootReducer, rootSaga, needLogger) {
   if (needLogger) {
@@ -18,13 +20,6 @@ function configureStore(rootReducer, rootSaga, needLogger) {
 
 function getStore() {
   return store;
-}
-
-if (!store.getState) {
-  store.getState = () => ({});
-}
-if (!store.subscribe) {
-  store.subscribe = () => {};
 }
 
 export { configureStore, getStore };
