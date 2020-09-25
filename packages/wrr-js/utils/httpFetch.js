@@ -1,4 +1,4 @@
-// const origin = "http://localhost:3000";
+const origin = process.env.WMP_ORIGIN || "";
 
 function stringifyLocation(data) {
   if (Object.keys(data).length === 0) {
@@ -32,7 +32,7 @@ function fetchApi(option = {}) {
   let { url, method, data } = option;
 
   method = (method && method.toUpperCase()) || "GET";
-  url = (process.env.WMP_ORIGIN || "") + url;
+  url = origin + url;
 
   if (method === "GET") {
     url += stringifyLocation(data || {});

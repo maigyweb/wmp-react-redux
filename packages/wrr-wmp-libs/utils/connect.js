@@ -1,5 +1,5 @@
 import { getStore } from "./store";
-import { getType, isEqualForArray } from "./util";
+import { isEqualForArray } from "./util";
 
 const listener = {};
 
@@ -52,7 +52,7 @@ const connect = Behavior({
     if (!defFields.data) {
       defFields.data = {};
     }
-    defFields.data._preDevs = null;
+    defFields.data._prevDeps = null;
 
     if (!defFields.methods) {
       defFields.methods = {};
@@ -66,27 +66,27 @@ const connect = Behavior({
 
   methods: {
     _dealPageState() {
-      const { devs, result, renderFn } = this._selector(this.data);
+      const { deps, result, renderFn } = this._selector(this.data);
       if (!result) {
         return;
       }
 
-      const { _preDevs } = this.data;
-      if (!_preDevs) {
-        this.setData({ ...result, _preDevs: devs });
+      const { _prevDeps } = this.data;
+      if (!_prevDeps) {
+        this.setData({ ...result, _prevDeps: deps });
         return;
       }
 
-      const needUpdate = !isEqualForArray(devs, _preDevs);
+      const needUpdate = !isEqualForArray(deps, _prevDeps);
       if (!needUpdate) {
         return;
       }
 
-      this.setData({ ...result, _preDevs: devs });
+      this.setData({ ...result, _prevDeps: deps });
 
       if (this._stateUpdated) {
         setTimeout(() => {
-          this._stateUpdated(renderFn(..._preDevs));
+          this._stateUpdated(renderFn(..._prevDeps));
         }, 0);
       }
     },
@@ -103,13 +103,13 @@ function createSelector(...args) {
       return null;
     }
 
-    const devFnList = args.slice(0, -1);
+    const depFnList = args.slice(0, -1);
     const renderFn = args[args.length - 1];
 
     const state = getStore().getState();
-    const devResList = devFnList.map((getDev) => getDev(state, data));
+    const depResList = depFnList.map((getDep) => getDep(state, data));
 
-    return { devs: devResList, result: renderFn(...devResList), renderFn };
+    return { deps: depResList, result: renderFn(...depResList), renderFn };
   };
 }
 

@@ -12,13 +12,13 @@ const env = getClientEnvironment();
 const wmpNPM = process.env.WMPNPM;
 const input = process.env.WMP_INPUT;
 
-const inputPath = input === "app" ? paths.appIndexJs : paths.appReduxJs;
-const outputFile = input === "app" ? paths.appName : paths.appReduxName;
+const inputFile = input === "app" ? paths.appIndexJs : paths.appReduxJs;
+const outputPath = input === "app" ? paths.appName : paths.appReduxName;
 
 module.exports = {
-  input: inputPath,
+  input: inputFile,
   output: {
-    file: path.join(wmpNPM, outputFile, "index.js"),
+    file: path.join(wmpNPM, outputPath, "index.js"),
     format: "cjs",
   },
   plugins: [
