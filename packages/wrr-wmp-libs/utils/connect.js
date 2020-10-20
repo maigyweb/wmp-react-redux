@@ -93,24 +93,20 @@ const connect = Behavior({
   },
 });
 
-function stateSelector(_createSelector, data) {
-  return _createSelector(data);
-}
+const stateSelector = (_createSelector, data) => _createSelector(data);
 
-function createSelector(...args) {
-  return (data) => {
-    if (!args || (args && args.length <= 1)) {
-      return null;
-    }
+const createSelector = (...args) => (data) => {
+  if (!args || (args && args.length <= 1)) {
+    return null;
+  }
 
-    const depFnList = args.slice(0, -1);
-    const renderFn = args[args.length - 1];
+  const depFnList = args.slice(0, -1);
+  const renderFn = args[args.length - 1];
 
-    const state = getStore().getState();
-    const depResList = depFnList.map((getDep) => getDep(state, data));
+  const state = getStore().getState();
+  const depList = depFnList.map((getDep) => getDep(state, data));
 
-    return { deps: depResList, result: renderFn(...depResList), renderFn };
-  };
-}
+  return { deps: depList, result: renderFn(...depList), renderFn };
+};
 
 export { connect, stateSelector, createSelector };
