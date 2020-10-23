@@ -36,7 +36,7 @@ function getClientEnvironment() {
       {
         // Useful for determining whether we’re running in production mode.
         // Most importantly, it switches React into the correct mode.
-        APP_ENV: process.env.APP_ENV || "development",
+        APP_ENV: process.env.APP_ENV || "dev",
         NODE_ENV: "production",
       }
     );
