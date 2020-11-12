@@ -1,26 +1,17 @@
 import { getStore } from "./store";
 import { isEqualForArray } from "./util";
 
-const listener = {};
-
 function trySubscribe() {
-  if (listener[this.__wxExparserNodeId__]) {
-    return;
+  if (!this._unsubscribe) {
+    this._unsubscribe = getStore().subscribe(this._dealPageState.bind(this));
+    this._dealPageState();
   }
-
-  this._unsubscript = getStore().subscribe(this._dealPageState.bind(this));
-  listener[this.__wxExparserNodeId__] = true;
-  this._dealPageState();
 }
 
-function tryUnsubscript() {
-  if (this._unsubscript) {
-    if (!listener[this.__wxExparserNodeId__]) {
-      return;
-    }
-
-    this._unsubscript();
-    listener[this.__wxExparserNodeId__] = false;
+function tryUnsubscribe() {
+  if (this._unsubscribe) {
+    this._unsubscribe();
+    this._unsubscribe = null
   }
 }
 
@@ -30,7 +21,7 @@ const connect = Behavior({
   },
 
   detached() {
-    tryUnsubscript.call(this);
+    tryUnsubscribe.call(this);
   },
 
   pageLifetimes: {
@@ -39,7 +30,7 @@ const connect = Behavior({
     },
 
     hide() {
-      tryUnsubscript.call(this);
+      tryUnsubscribe.call(this);
     },
   },
 
