@@ -57,14 +57,11 @@ const connect = Behavior({
 
   methods: {
     _dealPageState() {
-      const { deps, result, renderFn } = this._selector(this.data);
-      if (!result) {
-        return;
-      }
+      const { deps, renderFn } = this._selector(this.data);
 
       const { _prevDeps } = this.data;
       if (!_prevDeps) {
-        this.setData({ ...result, _prevDeps: deps });
+        this.setData({ ...(renderFn(...deps)), _prevDeps: deps });
         return;
       }
 
@@ -73,7 +70,7 @@ const connect = Behavior({
         return;
       }
 
-      this.setData({ ...result, _prevDeps: deps });
+      this.setData({ ...(renderFn(...deps)), _prevDeps: deps });
 
       if (this._stateUpdated) {
         setTimeout(() => {
@@ -97,7 +94,8 @@ const createSelector = (...args) => (data) => {
   const state = getStore().getState();
   const depList = depFnList.map((getDep) => getDep(state, data));
 
-  return { deps: depList, result: renderFn(...depList), renderFn };
+  // return { deps: depList, result: renderFn(...depList), renderFn };
+  return { deps: depList, renderFn };
 };
 
 export { connect, stateSelector, createSelector };
