@@ -1,12 +1,11 @@
 const {
-  getStore,
+  dispatch,
   connect,
   stateSelector,
   createSelector,
 } = require("wmp-redux");
 const { actions } = require("wrr-wmp-libs");
 const { aysncTest } = actions;
-const { dispatch } = getStore();
 
 const selector = createSelector(
   (state) => state.account.own,

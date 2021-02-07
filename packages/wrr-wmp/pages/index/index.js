@@ -1,12 +1,12 @@
 const { actions } = require("wrr-wmp-libs");
 const {
-  getStore,
+  dispatch,
+  getState,
   connect,
   stateSelector,
   createSelector,
 } = require("wmp-redux");
 const { aysncTest, getApiTest, postApiTest } = actions;
-const { dispatch, getState } = getStore();
 
 const number = 2;
 const numberAdd = (number, addNum) => number + (addNum || 0);
@@ -36,7 +36,8 @@ Component({
   },
 
   stateUpdated(preState) {
-    console.log(preState);
+    console.log('preState', preState);
+    console.log('this.data', this.data);
   },
 
   methods: {

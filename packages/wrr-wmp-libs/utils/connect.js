@@ -1,9 +1,9 @@
-import { getStore } from "./store";
+import { subscribe, getState } from "./store";
 import { isEqualForArray } from "./util";
 
 function trySubscribe() {
   if (!this._unsubscribe) {
-    this._unsubscribe = getStore().subscribe(this._dealPageState.bind(this));
+    this._unsubscribe = subscribe(this._dealPageState.bind(this));
     this._dealPageState();
   }
 }
@@ -91,7 +91,7 @@ const createSelector = (...args) => (data) => {
   const depFnList = args.slice(0, -1);
   const renderFn = args[args.length - 1];
 
-  const state = getStore().getState();
+  const state = getState();
   const depList = depFnList.map((getDep) => getDep(state, data));
 
   // return { deps: depList, result: renderFn(...depList), renderFn };
