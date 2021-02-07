@@ -1,9 +1,9 @@
 //app.js
-import { env } from "wrr-wmp-libs";
+import { env, rootReducer, rootSaga } from "wrr-wmp-libs";
 import { configureStore } from "wmp-redux";
 
 App({
   onLaunch: function () {
-    configureStore(env.DEBUG);
+    configureStore(rootReducer, rootSaga, env.DEBUG);
   },
 });

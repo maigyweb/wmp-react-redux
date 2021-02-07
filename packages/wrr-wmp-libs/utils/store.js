@@ -1,8 +1,6 @@
 import { createStore, applyMiddleware } from "redux";
 import createSagaMiddleware from "redux-saga";
 import logger from "redux-logger";
-import wmpAppJs from "wrr-js";
-const { rootReducer, rootSaga } = wmpAppJs;
 
 const sagaMiddleware = createSagaMiddleware();
 const middleware = [sagaMiddleware];
@@ -11,7 +9,7 @@ let store = {};
 store.getState = () => ({});
 store.subscribe = () => {};
 
-function configureStore(needLogger) {
+function configureStore(rootReducer, rootSaga, needLogger) {
   if (needLogger) {
     middleware.unshift(logger);
   }

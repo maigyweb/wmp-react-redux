@@ -1,5 +1,5 @@
 import wmpAppJs from "wrr-js";
-const { actions, utils } = wmpAppJs;
+const { actions, rootReducer, rootSaga, utils } = wmpAppJs;
 
 const env = {
   ENV: process.env.APP_ENV,
@@ -7,4 +7,4 @@ const env = {
   ORIGIN: process.env.WMP_ORIGIN,
 };
 
-module.exports = { env, actions, utils };
+module.exports = { env, actions, rootReducer, rootSaga, utils };
