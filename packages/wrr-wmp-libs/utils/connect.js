@@ -11,7 +11,7 @@ function trySubscribe() {
 function tryUnsubscribe() {
   if (this._unsubscribe) {
     this._unsubscribe();
-    this._unsubscribe = null
+    this._unsubscribe = null;
   }
 }
 
@@ -94,7 +94,6 @@ const createSelector = (...args) => (data) => {
   const state = getState();
   const depList = depFnList.map((getDep) => getDep(state, data));
 
-  // return { deps: depList, result: renderFn(...depList), renderFn };
   return { deps: depList, renderFn };
 };
 
