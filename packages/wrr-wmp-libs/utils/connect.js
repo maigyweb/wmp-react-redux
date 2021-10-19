@@ -70,13 +70,11 @@ const connect = Behavior({
         return;
       }
 
-      this.setData({ ...(renderFn(...deps)), _prevDeps: deps });
-
-      if (this._stateUpdated) {
-        setTimeout(() => {
+      this.setData({ ...(renderFn(...deps)), _prevDeps: deps }, () => {
+        if (this._stateUpdated) {
           this._stateUpdated(renderFn(..._prevDeps));
-        }, 0);
-      }
+        }
+      });
     },
   },
 });

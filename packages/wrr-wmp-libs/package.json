@@ -3,16 +3,17 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "redux": "APP_ENV=dev WMP_INPUT=redux node ./scripts/build.js",
-    "start": "APP_ENV=dev WMP_INPUT=app node ./scripts/start.js",
-    "buid": "APP_ENV=dev WMP_INPUT=app node ./scripts/build.js",
-    "buid:prod": "APP_ENV=prod WMP_INPUT=app node ./scripts/build.js",
+    "redux": "cross-env APP_ENV=dev WMP_INPUT=redux node ./scripts/build.js",
+    "start": "cross-env APP_ENV=dev WMP_INPUT=app node ./scripts/start.js",
+    "buid": "cross-env APP_ENV=dev WMP_INPUT=app node ./scripts/build.js",
+    "buid:prod": "cross-env APP_ENV=prod WMP_INPUT=app node ./scripts/build.js",
     "start:all": "yarn redux && yarn start",
     "build:all": "yarn redux && yarn buid:prod"
   },
   "author": "Maigy",
   "license": "ISC",
   "dependencies": {
+    "cross-env": "^7.0.3",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "redux-saga": "^1.1.3",
